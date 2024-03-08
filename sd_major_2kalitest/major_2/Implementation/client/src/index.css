@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+html, body, #root .app{
+  height: 100%;
+  width: 100% 
+}
+
+html {
+  font-size: 16px; /* Set the default font size */
+}
+
+.container {
+  width: 98.6vw;
+  /* min-height: 100vh; */ /* Remove min-height */
+  background: #3a3a3f;
+  transition: 0.5s;
+}
+
+.container.dark {
+  background: #222;
+}
