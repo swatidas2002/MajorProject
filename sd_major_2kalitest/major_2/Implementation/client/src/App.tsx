@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import  { useEffect, useState, useMemo } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -7,18 +7,24 @@ import Dashboard from './scenes/dashboard';
 import Exchange from "@/scenes/exchange"
 import Handbook from './scenes/Handbook';
 import About from './scenes/About';
+import Predictions from '@/scenes/predictions';
+
 
 import { themeSettings } from './theme';
 import './index.css';
 
+
 const App = () => {
   const [theme, setTheme] = useState(() => localStorage.getItem('current_theme') || 'light');
+
 
   useEffect(() => {
     localStorage.setItem('current_theme', theme);
   }, [theme]);
 
+
   const muiTheme = useMemo(() => createTheme(themeSettings), [theme]);
+
 
   return (
     <div className={`container ${theme}`}>
@@ -28,7 +34,7 @@ const App = () => {
           <Navbar theme={theme} setTheme={setTheme} />
           <Routes>
             <Route path="/" element={<Dashboard />} />
-            <Route path="/predictions" element={<div>predictions page</div>} />
+            <Route path="/predictions" element={<Predictions />} />
             <Route path="/about" element={<About />} />
             <Route path="/handbook" element={<Handbook />} />
             <Route path="/exchange" element={<Exchange/>} />
@@ -38,5 +44,6 @@ const App = () => {
     </div>
   );
 };
+
 
 export default App;
