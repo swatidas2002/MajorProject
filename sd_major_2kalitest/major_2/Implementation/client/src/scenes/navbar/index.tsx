@@ -15,6 +15,13 @@ const Navbar = ({ theme, setTheme }) => {
     theme === 'light' ? setTheme('dark') : setTheme('light');
   };
 
+  const handleLogout = () => {
+    // Here, you can implement your logout logic, such as clearing session, removing tokens, etc.
+    // After the logout logic is executed, you can navigate to a specific page.
+    // For example, if you're using React Router:
+    window.location.href = 'http://localhost:5173/'; // Replace '/logout' with the actual URL you want to navigate to after logout.
+  };
+
   return (
     <FlexBetween mb="0.25rem" p="0.5rem 0rem" color={palette.grey[300]}>
     {/* LEFT SIDE */}
@@ -100,7 +107,26 @@ const Navbar = ({ theme, setTheme }) => {
         </Box>
 
 
+   <Box sx={{ "&:hover": { color: palette.primary[100] } }}>
+          <button
+            onClick={handleLogout}
+            style={{
+              backgroundColor: 'transparent',
+              border: 'none',
+              color: palette.grey[700],
+              cursor: 'pointer',
+              textDecoration: 'inherit',
+              outline: 'none',
+              fontSize: 'inherit',
+            }}
+          >
+            LOGOUT
+          </button>
+        </Box>
+
         {/* Toggle Button */}
+
+        
         <img
           onClick={() => {
             toggle_mode();
@@ -109,6 +135,8 @@ const Navbar = ({ theme, setTheme }) => {
           className="toggle-icon"
           alt="Toggle"
         />
+
+        
       </FlexBetween>
     </FlexBetween>
   );
