@@ -67,6 +67,45 @@ const Navbar = ({ theme, setTheme }) => {
 
         <Box sx={{ "&:hover": { color: (palette.primary as any)[100] } }}>
           <Link
+            to="/expense"
+            onClick={() => setSelected("expense")}
+            style={{
+              color: selected === "expense" ? "inherit" : palette.grey[700],
+              textDecoration: "inherit",
+            }}
+          >
+            EXPENSE
+          </Link>
+        </Box>
+
+        <Box sx={{ "&:hover": { color: (palette.primary as any)[100] } }}>
+          <Link
+            to="/taxcalculator"
+            onClick={() => setSelected("taxcalculator")}
+            style={{
+              color: selected === "taxcalculator" ? "inherit" : palette.grey[700],
+              textDecoration: "inherit",
+            }}
+          >
+            TAX 
+          </Link>
+        </Box>
+        
+        <Box sx={{ "&:hover": { color: (palette.primary as any)[100] } }}>
+          <Link
+            to="/invoice"
+            onClick={() => setSelected("invoice")}
+            style={{
+              color: selected === "invoice" ? "inherit" : palette.grey[700],
+              textDecoration: "inherit",
+            }}
+          >
+            INVOICE
+          </Link>
+        </Box>
+
+        <Box sx={{ "&:hover": { color: (palette.primary as any)[100] } }}>
+          <Link
             to="/exchange"
             onClick={() => setSelected("exchange")}
             style={{

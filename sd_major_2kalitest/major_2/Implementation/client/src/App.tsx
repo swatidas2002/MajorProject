@@ -8,6 +8,9 @@ import Exchange from "@/scenes/exchange"
 import Handbook from './scenes/Handbook';
 import About from './scenes/About';
 import Predictions from '@/scenes/predictions';
+import MainComponent from '@/scenes/taxcalculator';
+import InvoiceSystem from '@/scenes/invoice';
+import Expense from './scenes/Expense';
 
 
 import { themeSettings } from './theme';
@@ -35,9 +38,19 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/predictions" element={<Predictions />} />
+            
             <Route path="/about" element={<About />} />
             <Route path="/handbook" element={<Handbook />} />
             <Route path="/exchange" element={<Exchange/>} />
+            <Route path="/expense" element={<Expense/>} />
+            <Route path="/taxcalculator" element={<MainComponent/>} />
+            <Route path="/invoice" element={<InvoiceSystem/>} />
+            
+            
+
+            
+
+            
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
