@@ -1,6 +1,6 @@
 // ThemeContext.js
 import React, { createContext, useState, useContext } from 'react';
-
+import toast, { Toaster } from 'react-hot-toast';
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
@@ -13,6 +13,10 @@ export const ThemeProvider = ({ children }) => {
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       {children}
+      <Toaster 
+          position="top-center"
+         reverseOrder={true}
+      />
     </ThemeContext.Provider>
   );
 };

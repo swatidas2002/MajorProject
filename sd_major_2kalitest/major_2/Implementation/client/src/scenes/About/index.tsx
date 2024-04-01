@@ -50,7 +50,7 @@ const AboutSection = () => {
         variant="h1"
         style={{ color: '#45bb94', fontWeight: 'bold', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)' }}
         gutterBottom
-        sx={{ fontFamily: 'Roboto Slab, sans-serif' }}
+        sx={{ fontFamily: 'Roboto Slab, sans-serif', fontSize: '35px', marginTop:'1.5%'}}
       >
         ABOUT US
       </Typography>
@@ -92,8 +92,8 @@ const AboutSection = () => {
         <div style={{ ...gifContainerStyle, flexDirection: "row-reverse" }}>
           <div style={{ ...contentStyle, marginRight: '7%' }}>
             <Typography variant="body1" color={theme.palette.grey[500]}>
-              Our project was initiated to fulfill the growing demand for comprehensive financial management solutions in businesses. We aimed to empower organisations to track their financial data and important performance measures more efficiently by prioritising user-friendly interface design and leveraging modern technology. Our technology provides critical insights and enables informed decision-making by combining features like data visualisation, predictive analytics, and anomaly detection. We collaborate and innovate to help businesses optimise their financial processes and achieve long-term success.Our mission is driven by the desire to help our clients achieve long-term success. We are dedicated to providing cutting-edge solutions that help businesses survive in today's competitive environment, fostering innovation and sustainability across industries.
-            </Typography>
+                      Our project was initiated to fulfill the growing demand for comprehensive financial management solutions in small businesses. We aimed to empower small business owners to track their financial data and important performance measures more efficiently by prioritizing user-friendly interface design and leveraging modern technology. Our technology provides critical insights and enables informed decision-making by combining features like data visualization, predictive analytics, and an expense tracker showing a balanced graph, a tax calculator in terms of dollars, and an invoice system. We collaborate and innovate to help businesses optimize their financial processes and achieve long-term success. Our mission is driven by the desire to help our clients achieve long-term success. We are dedicated to providing cutting-edge solutions that help businesses survive in today's competitive environment, fostering innovation and sustainability across industries.
+              </Typography>
           </div>
           <img
             src="https://www.geckoboard.com/blog/content/images/size/w2000/2020/01/gb-launch-blog-white.gif"

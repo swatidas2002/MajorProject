@@ -42,25 +42,25 @@ function TaxCalculator() {
     if (!entityType || !filingStatus) {
       popupsToShow[0] = true;
     }
-    if (income === 0) {
+    if (isNaN(income) || income === 0) {
       popupsToShow[1] = true;
     }
-    if (totalExpenses === 0) {
+    if (isNaN(totalExpenses) || totalExpenses === 0) {
       popupsToShow[2] = true;
     }
-    if (miscellaneousExpenses === 0) {
+    if (isNaN(miscellaneousExpenses) || miscellaneousExpenses === 0) {
       popupsToShow[3] = true;
     }
-    if (estimatedTaxPayments === 0) {
+    if (isNaN(estimatedTaxPayments) || estimatedTaxPayments === 0) {
       popupsToShow[4] = true;
     }
     setShowPopups(popupsToShow);
-
+  
     if (popupsToShow.every((popup) => !popup)) {
       let taxAmount = 0;
       let taxableIncome = income - totalExpenses - miscellaneousExpenses - estimatedTaxPayments;
       taxableIncome = Math.max(0, taxableIncome);
-
+  
       switch (entityType) {
         case 'C-Corporation':
           taxAmount = calculateCCorporationTax(taxableIncome);
@@ -83,10 +83,11 @@ function TaxCalculator() {
         default:
           taxAmount = 0;
       }
-
+  
       setTax(taxAmount);
     }
   };
+  
 
   const calculateCCorporationTax = (income: number) => {
     return income * 0.21; // Assume a flat corporate tax rate of 21%
@@ -226,32 +227,36 @@ function TaxCalculator() {
         />
       </div>
 
-      <div style={{ marginTop: '20px' }}>
-        <Button onClick={calculateTax} className="calculate-tax-button">Calculate Tax</Button>
+      <Button onClick={calculateTax} className="calculate-tax-button">Calculate Tax</Button>
+
+      <div className="popup-container">
+        {showPopups.map((showPopup, index) => {
+          if (showPopup) {
+            return (
+              <div key={index} className="popup">
+                <div className="popup-content">
+                  {index === 0 && <p className="popup-text">Please select both entity type and filing status.</p>}
+                  {index === 1 && <p className="popup-text">Please input your income.</p>}
+                  {index === 2 && <p className="popup-text">Please input your total expenses.</p>}
+                  {index === 3 && <p className="popup-text">Please input your miscellaneous expenses.</p>}
+                  {index === 4 && <p className="popup-text">Please input your estimated payments.</p>}
+                  <button className="close-popup-button" onClick={() => setShowPopups(prevState => prevState.map((value, i) => i === index ? false : value))}>X</button>
+                </div>
+              </div>
+            );
+          }
+          return null;
+        })}
       </div>
 
-      {showPopups.map((showPopup, index) => {
-        if (showPopup) {
-          return (
-            <div key={index} className="popup">
-              <div className="popup-content">
-                {index === 0 && <p className="popup-text">Please select both entity type and filing status.</p>}
-                {index === 1 && <p className="popup-text">Please input your income.</p>}
-                {index === 2 && <p className="popup-text">Please input your total expenses.</p>}
-                {index === 3 && <p className="popup-text">Please input your miscellaneous expenses.</p>}
-                {index === 4 && <p className="popup-text">Please input your estimated payments.</p>}
-                <button className="close-popup-button" onClick={() => setShowPopups(prevState => prevState.map((value, i) => i === index ? false : value))}>X</button>
-              </div>
-            </div>
-          );
-        }
-        return null;
-      })}
-
       {/* Display tax amount if calculated */}
-      {tax > 0 && (
-        <p>Your tax is: ${tax.toFixed(2)}</p>
-      )}
+      <div className="tax-result">
+  {/* Display tax amount if calculated */}
+  {tax > 0 && (
+    <p className="tax-result-text">Your tax is: <span className="tax-amount">${tax.toFixed(2)}</span></p>
+  )}
+</div>
+
     </div>
   );
 }

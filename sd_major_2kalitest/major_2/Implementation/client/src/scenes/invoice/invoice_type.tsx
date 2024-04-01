@@ -14,15 +14,18 @@ const Invoice: React.FC = () => {
   const [customer, setCustomer] = useState({ name: '', address: '', city: '' });
   const [invoiceDetails, setInvoiceDetails] = useState({ number: '', date: '' });
   const [products, setProducts] = useState<Product[]>([{ particular: '', qty: 0, rate: 0, amt: 0 }]);
-  const [invoicesLog, setInvoicesLog] = useState<string[]>([]);
-  const [showInvoicesLog, setShowInvoicesLog] = useState(false); // State to control visibility of invoices log
+  const [showProductPopup, setShowProductPopup] = useState<boolean[]>([]);
+  const [showCustomerPopup, setShowCustomerPopup] = useState(false);
+  const [showInvoicePopup, setShowInvoicePopup] = useState(false);
 
   const handleAddProduct = () => {
     setProducts([...products, { particular: '', qty: 0, rate: 0, amt: 0 }]);
+    setShowProductPopup([...showProductPopup, false]);
   };
 
   const handleDeleteProduct = (index: number) => {
     setProducts(products.filter((_, i) => i !== index));
+    setShowProductPopup(showProductPopup.filter((_, i) => i !== index));
   };
 
   const handleInputChange = (index: number, field: keyof Product, value: string | number) => {
@@ -31,7 +34,6 @@ const Invoice: React.FC = () => {
     updatedProducts[index].amt = updatedProducts[index].qty * updatedProducts[index].rate;
     setProducts(updatedProducts);
   };
-  
 
   const getTotal = (): number | string => {
     const hasInvalidInput = products.some(product => isNaN(product.qty) || isNaN(product.rate));
@@ -48,50 +50,79 @@ const Invoice: React.FC = () => {
     setCustomer({ name: '', address: '', city: '' });
     setInvoiceDetails({ number: '', date: '' });
     setProducts([{ particular: '', qty: 0, rate: 0, amt: 0 }]);
+    setShowProductPopup([]);
   };
 
   const handlePrint = () => {
-    window.print();
-  };
-
-  const handleSubmit = async () => {
-    try {
-      const invoiceData = {
-        customer,
-        invoiceDetails,
-        products
-      };
+    let productPopup = products.map(product => !product.particular || product.qty === 0 || product.rate === 0 || product.amt === 0);
+    setShowProductPopup(productPopup);
   
-      // Send POST request to server to create new invoice
-      const response = await axios.post('http://localhost:1337/invoice', invoiceData); // Change the URL to match your server's address
-        
-      // Optionally, handle success response here
-      console.log('Invoice created:', response.data);
-  
-      // Update invoices log state
-      //setInvoicesLog([...invoicesLog, JSON.stringify(invoiceData)]);
-      
-      // Clear form fields or perform any other actions after successful submission
-      handleReset();
-    } catch (error) {
-      // Handle error responses
-      if (error.response && error.response.data) {
-        console.error('Error creating invoice:', error.response.data);
-      } else {
-        console.error('Error creating invoice:', error);
-      }
-      // Optionally, display error message to user
+    if (!customer.name || !customer.address || !customer.city) {
+      setShowCustomerPopup(true);
+    }
+    if (!invoiceDetails.number || !invoiceDetails.date) {
+      setShowInvoicePopup(true);
     }
   };
   
   
+  const handleSubmit = async () => {
+    let productPopup = products.map(product => !product.particular || product.qty === 0 || product.rate === 0 || product.amt === 0);
+    setShowProductPopup(productPopup);
 
-  /*const toggleInvoicesLog = () => {
-    setShowInvoicesLog(!showInvoicesLog); // Toggle visibility of invoices log
-  };*/
+    if (!customer.name || !customer.address || !customer.city) {
+      setShowCustomerPopup(true);
+    }
+    if (!invoiceDetails.number || !invoiceDetails.date) {
+      setShowInvoicePopup(true);
+    } else {
+      try {
+        const invoiceData = {
+          customer,
+          invoiceDetails,
+          products
+        };
+        // Send POST request to server to create new invoice
+        const response = await axios.post('http://localhost:1337/invoice', invoiceData); // Change the URL to match your server's address
+        // Optionally, handle success response here
+        console.log('Invoice created:', response.data);
+        // Update invoices log state
+        //setInvoicesLog([...invoicesLog, JSON.stringify(invoiceData)]);
+        // Clear form fields or perform any other actions after successful submission
+        handleReset();
+      } catch (error) {
+        // Handle error responses
+        if (error.response && error.response.data) {
+          console.error('Error creating invoice:', error.response.data);
+        } else {
+          console.error('Error creating invoice:', error);
+        }
+        // Optionally, display error message to user
+      }
+    }
+  };
+  
+  const handleCloseCustomerPopup = () => {
+    setShowCustomerPopup(false);
+  };
+
+  const handleCloseInvoicePopup = () => {
+    setShowInvoicePopup(false);
+  };
+
+  const handleCloseProductPopup = (index: number) => {
+    const updatedShowProductPopup = [...showProductPopup];
+    updatedShowProductPopup[index] = false;
+    setShowProductPopup(updatedShowProductPopup);
+  };
 
   return (
     <div className="container">
+      <div className="popup-container">
+        {showCustomerPopup && <div className="popupinv">Please enter customer details<button className="close-butinv" onClick={handleCloseCustomerPopup}>X</button></div>}
+        {showInvoicePopup && <div className="popupinv">Please enter invoice details<button className="close-butinv" onClick={handleCloseInvoicePopup}>X</button></div>}
+        {showProductPopup.map((showPopup, index) => showPopup && <div key={index} className="popupinv">Please enter product details<button className="close-butinv" onClick={() => handleCloseProductPopup(index)}>X</button></div>)}
+      </div>
       <div className="row">
         <div className="col-md-8">
           <div className="card">
@@ -165,10 +196,10 @@ const Invoice: React.FC = () => {
             </div>
           </div>
         </div>
-       
       </div>
     </div>
   );
 };
 
 export default Invoice;
+

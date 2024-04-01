@@ -11,6 +11,7 @@ import Predictions from '@/scenes/predictions';
 import MainComponent from '@/scenes/taxcalculator';
 import InvoiceSystem from '@/scenes/invoice';
 import Expense from './scenes/Expense';
+import  toast , { Toaster } from 'react-hot-toast';
 
 
 import { themeSettings } from './theme';
@@ -24,6 +25,8 @@ const App = () => {
   useEffect(() => {
     localStorage.setItem('current_theme', theme);
   }, [theme]);
+
+  
 
 
   const muiTheme = useMemo(() => createTheme(themeSettings), [theme]);
@@ -45,14 +48,10 @@ const App = () => {
             <Route path="/expense" element={<Expense/>} />
             <Route path="/taxcalculator" element={<MainComponent/>} />
             <Route path="/invoice" element={<InvoiceSystem/>} />
-            
-            
-
-            
-
-            
+           
           </Routes>
         </BrowserRouter>
+        <Toaster position="top-center" reverseOrder={true}/>
       </ThemeProvider>
     </div>
   );
