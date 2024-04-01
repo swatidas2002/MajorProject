@@ -153,7 +153,7 @@ const Invoice: React.FC = () => {
               <div className="col">
                 <div className="mb-3">
                   <label htmlFor="invoiceNumber" className="form-label">Invoice Number</label>
-                  <input type="text" className="form-control" id="invoiceNumber" value={invoiceDetails.number} onChange={(e) => setInvoiceDetails({ ...invoiceDetails, number: e.target.value })} />
+                  <input type="number" className="form-control" id="invoiceNumber" value={invoiceDetails.number} onChange={(e) => setInvoiceDetails({ ...invoiceDetails, number: e.target.value })} />
                 </div>
                 <div className="mb-3">
                   <label htmlFor="invoiceDate" className="form-label">Invoice Date</label>
