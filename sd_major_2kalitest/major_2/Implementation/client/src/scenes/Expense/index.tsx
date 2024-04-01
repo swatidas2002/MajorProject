@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart, ArcElement } from 'chart.js';
-import { Typography, useTheme } from "@mui/material";
-
+import { Typography } from "@mui/material";
+import { toast } from 'react-hot-toast'; // Import toast from react-hot-toast
+import 'react-toastify/dist/ReactToastify.css';
+import { green, red } from '@mui/material/colors';
 
 Chart.register(ArcElement);
 
@@ -30,6 +32,43 @@ const ExpenseTracker = () => {
     setAmount('');
     setType('');
   };
+
+  useEffect(() => {
+    updateBalanceGraph();
+    showNotification(); // Call showNotification within useEffect to ensure state is updated `You have ${balance} in balance`
+  }, [transactions]);
+
+  const showNotification = () => {
+    const balance = parseFloat(getBalance());
+    if (balance > 0) {
+      toast.success(`Transaction added.\nYou have ${balance} in balance`, {
+        style: {
+          border: '1px solid #713200',
+          padding: '15px', // Increase padding to increase the size
+          fontSize: '20px', // Increase font size
+          color : '#4caf50',
+          width: '400px',
+        },
+        duration: 6000,
+      });
+    } else if (balance < 0) {
+      toast.success(`Transaction added.\nYou have ${Math.abs(balance)} in debt`, {
+        style: {
+          border: '1px solid #713200',
+          padding: '15px', // Increase padding to increase the size
+          fontSize: '20px', // Increase font size
+          color : '#d50000',
+          width: '400px',
+        },
+        iconTheme: {
+          primary: '#FF0000', // Red color
+          secondary: '#FFFAEE',
+      },
+        duration: 6000,
+      });
+    }
+  };
+  
 
   const getTotalIncome = () => {
     return transactions
@@ -66,11 +105,6 @@ const ExpenseTracker = () => {
     setBalanceData(data);
   };
 
-  useEffect(() => {
-    updateBalanceGraph();
-  }, [transactions]);
-
-  
   const containerStyle: React.CSSProperties = {
     color: '#45bb94',
     fontWeight: 'bold',
@@ -79,17 +113,14 @@ const ExpenseTracker = () => {
     fontSize: '35px',
     textAlign: 'center',
     marginBottom: '30px',
-    marginTop: '40px', // Add margin top property for space above the title
+    marginTop: '40px',
   };
-  
 
   return (
     <div className="expense-tracker" style={{ textAlign: 'center', color: '#fff' }}>
       <Typography variant="h1" style={containerStyle} gutterBottom>
         EXPENSE TRACKER
       </Typography>
-
-     
 
       <form onSubmit={handleSubmit} style={{ display: 'inline-block', textAlign: 'left' }}>
         <div style={{ marginBottom: '10px' }}>
@@ -104,6 +135,7 @@ const ExpenseTracker = () => {
         </div>
       </form>
 
+      {/* Other JSX elements remain the same */}
       <div>
         <h3>Transaction History</h3>
         <ul style={{ listStyleType: 'none', padding: 0 }}>

@@ -15,6 +15,7 @@ function MainComponent() {
         {/* Include the TaxCalculator component here */}
         <GridItem colSpan={4}>
           <TaxCalculator />
+          
         </GridItem>
       </Grid>
 
