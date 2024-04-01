@@ -63,7 +63,13 @@ const Invoice: React.FC = () => {
     if (!invoiceDetails.number || !invoiceDetails.date) {
       setShowInvoicePopup(true);
     }
+  
+    // Print the invoice if all details are entered
+    if (!showCustomerPopup && !showInvoicePopup && !productPopup.includes(true)) {
+      window.print();
+    }
   };
+  
   
   
   const handleSubmit = async () => {

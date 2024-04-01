@@ -48,14 +48,15 @@
 }
 
 .tax-calculator-container button {
-    padding: 10px 20px; /* Adjust padding as needed */
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    display: block;
-    margin: 0 auto; /* Center the button */
+  padding: 10px 20px; /* Adjust padding as needed */
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: block;
+  margin: 0 auto; /* Center the buttons horizontally */
+  margin-right: 5%;
 }
 
 .tax-calculator-container button:hover {
@@ -63,13 +64,13 @@
 }
 
 .calculate-tax-button {
-    background-color: rgb(87, 128, 0);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 18px;
-  }
+  background-color: rgb(87, 128, 0);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 18px;
+}
   
   .close-popup-button {
     background-color: red;
@@ -124,6 +125,7 @@
     color: white;
     font-size: 18px;
     margin-top: 2%;
+    text-align: center;
   }
   
   .tax-amount {
@@ -131,4 +133,26 @@
     font-size: 18px;
   }
   
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+
+  }
+  
+  
+
+.tax-calculator-container button {
+  font-size: 18px;
+  margin-left: 0%;
+}
+
+.reset-button {
+  background-color: #dc3545; /* Red color for reset button */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 18px;
+}
   

@@ -165,6 +165,17 @@ function TaxCalculator() {
     return income * taxRate;
   };
 
+  const handleReset = () => {
+    setIncome(0);
+    setTotalExpenses(0);
+    setMiscellaneousExpenses(0);
+    setEstimatedTaxPayments(0);
+    setEntityType('');
+    setFilingStatus('');
+    setTax(0);
+    setShowPopups([false, false, false, false, false]);
+  };
+
   return (
     <div className="tax-calculator-container">
       <div>
@@ -227,7 +238,10 @@ function TaxCalculator() {
         />
       </div>
 
-      <Button onClick={calculateTax} className="calculate-tax-button">Calculate Tax</Button>
+      <div className="button-container">
+        <Button onClick={calculateTax} className="calculate-tax-button">Calculate Tax</Button>
+        <Button onClick={handleReset} className="reset-button">Reset</Button>
+      </div>
 
       <div className="popup-container">
         {showPopups.map((showPopup, index) => {
@@ -251,12 +265,10 @@ function TaxCalculator() {
 
       {/* Display tax amount if calculated */}
       <div className="tax-result">
-  {/* Display tax amount if calculated */}
-  {tax > 0 && (
-    <p className="tax-result-text">Your tax is: <span className="tax-amount">${tax.toFixed(2)}</span></p>
-  )}
-</div>
-
+        {tax > 0 && (
+          <p className="tax-result-text">Your tax is: <span className="tax-amount">${tax.toFixed(2)}</span></p>
+        )}
+      </div>
     </div>
   );
 }
