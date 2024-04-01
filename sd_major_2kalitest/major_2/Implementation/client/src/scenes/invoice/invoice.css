@@ -109,7 +109,9 @@
   }
   
   .btn-warning,
-  .btn-primary {
+  .btn-primary,
+  .btn-submit
+   {
     /* Set background color to green */
     border-radius: 10px; /* Make it round by setting border-radius */
     padding: 10px 20px; /* Set padding for both buttons */
@@ -121,11 +123,16 @@
   
   .btn-warning{
     background-color: rgb(204, 162, 200);
-    margin-left: 70%; 
+   
   }
 
   
-  
+  .btn-submit{
+    background-color: rgb(143, 188, 173);
+    margin-left: 70%; 
+    
+   
+  }
   
     #totalLabel {
       font-size: 16px;

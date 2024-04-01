@@ -1,3 +1,4 @@
+// index.js 
 import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
@@ -5,13 +6,12 @@ import cors from "cors";
 import dotenv from "dotenv";
 import helmet from "helmet";
 import morgan from "morgan";
+
+// Import routes
 import kpiRoutes from "./routes/kpi.js";
 import productRoutes from "./routes/product.js";
 import transactionRoutes from "./routes/transaction.js";
-import KPI from "./models/KPI.js";
-import Product from "./models/Product.js";
-import Transaction from "./models/Transaction.js";
-import { kpis, products, transactions } from "./data/data.js";
+import invoiceRoutes from "./routes/invoiceroutes.js"; 
 
 /* CONFIGURATIONS */
 dotenv.config();
@@ -24,15 +24,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
-
 /* ROUTES */
 app.use("/kpi", kpiRoutes);
 app.use("/product", productRoutes);
 app.use("/transaction", transactionRoutes);
-
+app.use("/invoice", invoiceRoutes);
 
 /* MONGOOSE SETUP */
-const PORT = process.env.PORT || 9000;
+const PORT = process.env.PORT || 1337;
 mongoose
   .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
@@ -40,10 +39,20 @@ mongoose
   })
   .then(async () => {
     app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
-    /* ADD DATA ONE TIME ONLY OR AS NEEDED */
-    //await mongoose.connection.db.dropDatabase();
-    //KPI.insertMany(kpis);
-    //Product.insertMany(products);
-    //Transaction.insertMany(transactions);
+    console.log("Connected to MongoDB");
   })
   .catch((error) => console.log(`${error} did not connect`));
+
+
+
+
+
+
+
+
+// invoiceroutes.js in routes folder 
+
+
+
+
+//invoice_type.tsx

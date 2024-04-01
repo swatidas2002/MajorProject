@@ -60,3 +60,44 @@
 .tax-calculator-container button:hover {
     background-color: #0056b3;
 }
+
+.calculate-tax-button {
+    background-color: rgb(87, 128, 0);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  .close-popup-button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  .popup {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    z-index: 999; /* Ensure it's above other content */
+  }
+  
+  .popup-content {
+    display: flex;
+    align-items: center;
+  }
+  
+  .popup-text {
+    flex: 1;
+    font-size: 14px;
+  }
+  
+  #popup-close {
+    font-size: 18px;
+  }
+  
