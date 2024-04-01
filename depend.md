@@ -34,3 +34,17 @@ client --> npm run dev
 --> if the above doesn work, try doing client first and then server
 
 **************************************
+#extra package for popup (1st april)
+npm install react-hot-toast
+**************************************
+
+How to run the project
+starting folder : 
+server --> npm start
+client -->npm run dev
+
+implementation folder:
+server -->  npm run dev
+client --> npm run dev
+
+then go to client folder of starting folder and open its vite link
