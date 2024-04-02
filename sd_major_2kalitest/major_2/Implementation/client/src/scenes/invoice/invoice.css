@@ -7,12 +7,13 @@
     transform: translate(-50%, -50%); /* Adjust position to center */
     width: 85%; /* Adjust the width as needed */
     max-width: 800px; /* White Box Set a maximum width for the box */
-    max-height: 500px;
+    max-height: 600px;
     padding: 30px; /* Added padding for better spacing */
     border: 1px solid #ccc; /* Added border for visual separation */
     border-radius: 10px; /* Added border radius for rounded corners */
     background-color: #fff; /* Added background color */
     box-shadow: 0 4px 6px rgba(10, 10, 10, 0.1); /* Added box shadow for depth */
+    overflow: auto;
     
     
 }
@@ -193,4 +194,25 @@
       cursor: pointer; /* Set cursor to pointer for interaction */
     }
     
-    
+    /* Add a class to the buttons container for easier targeting */
+
+
+/* Define a media query for printing */
+@media print {
+  /* Hide the buttons when printing */
+  .buttons-container {
+    display: none !important;
+  }
+
+  .add-container{
+    display: none !important;
+
+  }
+
+  .btn-danger{
+    display: none !important;
+
+  }
+
+}
+
