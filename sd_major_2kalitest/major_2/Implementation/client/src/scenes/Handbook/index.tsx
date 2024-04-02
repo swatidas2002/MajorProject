@@ -8,7 +8,7 @@ const HandbookContent = () => {
     flexDirection: "column",
     alignItems: "center",
     padding: "1rem",
-    textAlign: "center",
+   
   };
 
   const gifContainerStyle: React.CSSProperties = {
@@ -17,7 +17,7 @@ const HandbookContent = () => {
     alignItems: "center",
     marginTop: "1rem",
     width: "100%",
-    justifyContent: "space-between"
+    
   };
 
   const gifContentStyle: React.CSSProperties = {
@@ -28,7 +28,7 @@ const HandbookContent = () => {
 
   const contentStyle: React.CSSProperties = {
     maxWidth: "45%",
-    textAlign: "left",
+    
     margin:"1rem",
     textAlign: "justify",
   };
