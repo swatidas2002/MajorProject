@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart, ArcElement } from 'chart.js';
-import { Typography } from "@mui/material";
+import { Hidden, Typography } from "@mui/material";
 import { toast } from 'react-hot-toast';
 import 'react-toastify/dist/ReactToastify.css';
 import { green, red } from '@mui/material/colors';
@@ -120,7 +120,7 @@ const ExpenseTracker = () => {
   };
 
   return (
-    <div className="expense-tracker" style={{ textAlign: 'center', color: '#fff' }}>
+    <div className="expense-tracker" style={{ textAlign: 'center', color: '#fff'}}>
       <Typography variant="h1" style={containerStyle} gutterBottom>
         EXPENSE TRACKER
       </Typography>

@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Typography, useTheme } from "@mui/material";
+import React, { useState, useEffect } from 'react';
+import { Typography, Box, Link } from '@mui/material';
 import DashboardBox from "@/components/DashboardBox";
-import FlexBetween from "@/components/FlexBetween";
-import { Box } from "@mui/material";
-import styled from "styled-components";
+import axios from 'axios';
 import {
   LineChart,
   Line,
@@ -13,118 +11,122 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer
-} from "recharts";
+} from 'recharts';
 
-// StyledDashboardBox component with zoom-in effect on hover
-const StyledDashboardBox = styled(DashboardBox)`
-  transition: transform 0.5s ease-in-out; // Adding transition for smooth animation
-  &:hover {
-    transform: scale(1.05); // Scaling up to 110% on hover
-  }
-`;
+const CurrencyExchangeDashboard = () => {
+  const [baseCurrency, setBaseCurrency] = useState('USD');
+  const [targetCurrency, setTargetCurrency] = useState('INR');
+  const [exchangeRates, setExchangeRates] = useState([]);
 
-const ExchangeRateDashboard = () => {
-  const theme = useTheme();
-  const [exchangeRates, setExchangeRates] = useState({
-    INR: [],
-    GBP: [],
-    AUD: [],
-    EUR: []
-  });
-
+  // Fetch exchange rates data
   useEffect(() => {
     const fetchExchangeRates = async () => {
       try {
-        const responseINR = await fetch(
-          "https://api.exchangerate-api.com/v4/latest/INR"
-        );
-        const dataINR = await responseINR.json();
-
-        const responseGBP = await fetch(
-          "https://api.exchangerate-api.com/v4/latest/GBP"
-        );
-        const dataGBP = await responseGBP.json();
-
-        const responseAUD = await fetch(
-          "https://api.exchangerate-api.com/v4/latest/AUD"
-        );
-        const dataAUD = await responseAUD.json();
-
-        const responseEUR = await fetch(
-          "https://api.exchangerate-api.com/v4/latest/EUR"
-        );
-        const dataEUR = await responseEUR.json();
-
-        setExchangeRates({
-          INR: [
-            { currency: "INR", datetime: new Date(), USD: dataINR.rates.USD, INR: 1 }
-          ],
-          GBP: [
-            { currency: "GBP", datetime: new Date(), USD: dataGBP.rates.USD, GBP: 1 }
-          ],
-          AUD: [
-            { currency: "AUD", datetime: new Date(), USD: dataAUD.rates.USD, AUD: 1 }
-          ],
-          EUR: [
-            { currency: "EUR", datetime: new Date(), USD: dataEUR.rates.USD, EUR: 1 }
-          ]
-        });
+        const response = await axios.get(`https://api.exchangerate-api.com/v4/latest/${baseCurrency}`);
+        const rates = response.data.rates;
+        const exchangeRatesData = [
+          { currency: baseCurrency, rate: 1, timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) }, // Include IST timestamp
+          { currency: targetCurrency, rate: rates[targetCurrency], timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) } // Include IST timestamp
+        ];
+        setExchangeRates(exchangeRatesData);
       } catch (error) {
-        console.error("Error fetching exchange rates:", error);
+        console.error('Error fetching exchange rates:', error);
       }
     };
 
-    const interval = setInterval(fetchExchangeRates, 60000); // Fetch every minute
-    fetchExchangeRates(); // Initial fetch
+    fetchExchangeRates();
+  }, [baseCurrency, targetCurrency]);
 
-    return () => clearInterval(interval); // Clean up interval
-  }, []);
+  // Handle base currency change
+  const handleBaseCurrencyChange = (event) => {
+    setBaseCurrency(event.target.value);
+  };
+
+  // Handle target currency change
+  const handleTargetCurrencyChange = (event) => {
+    setTargetCurrency(event.target.value);
+  };
 
   return (
-    <FlexBetween
-      style={{ height: "100%", gap: "1rem", flexWrap: "wrap", overflow: "hidden", padding: "1rem" }} // Add padding here
-    >
-      {Object.keys(exchangeRates).map(currency => (
-        <StyledDashboardBox
-          key={currency}
-          style={{
-            width: "calc(50% - 1rem)",
-            height: "calc(50% - 1rem)",
-            padding: "1rem",
-            overflow: "hidden"
-          }}
-        >
-          <Box textAlign="center">
-            <Typography variant="h3">{`${currency} to USD Exchange Rate`}</Typography>
-            <ResponsiveContainer width="90%" height={225}>
-              <LineChart data={exchangeRates[currency]}>
+    <div>
+      <Box textAlign="center" >
+        <Typography variant="h1" gutterBottom style={{ color: '#45bb94', fontWeight: 'bold', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)', paddingTop: '10px'}}>
+          EXCHANGE RATE DASHBOARD
+        </Typography>
+      </Box>
+
+      {/* Currency Converter */}
+      <Box textAlign="center">
+        <Box display="flex" justifyContent="center" alignItems="center">
+          <div style={{ marginRight: '5rem' }}>
+            <label htmlFor="baseCurrency" style={{ fontSize: '1.5rem', color: 'white' }}>Select base currency  :  </label>
+            <select id="baseCurrency" value={baseCurrency} onChange={handleBaseCurrencyChange} style={{ fontSize: '1rem' }}>
+              {[ "AED", "AFN", "ALL", "AMD", "ANG", "AOA", "ARS", "AUD", "AWG", "AZN", "BAM", "BBD", "BDT", "BGN", "BHD", "BIF", "BMD", "BND", "BOB", "BRL", "BSD", "BTN", "BWP", "BYN", "BZD", "CAD", "CDF", "CHF", "CLP", "CNY", "COP", "CRC", "CUP", "CVE", "CZK", "DJF", "DKK", "DOP", "DZD", "EGP", "ERN", "ETB", "EUR", "FJD", "FKP", "FOK", "GBP", "GEL", "GGP", "GHS", "GIP", "GMD", "GNF", "GTQ", "GYD", "HKD", "HNL", "HRK", "HTG", "HUF", "IDR", "ILS", "IMP", "INR", "IQD", "IRR", "ISK", "JEP", "JMD", "JOD", "JPY", "KES", "KGS", "KHR", "KID", "KMF", "KRW", "KWD", "KYD", "KZT", "LAK", "LBP", "LKR", "LRD", "LSL", "LYD", "MAD", "MDL", "MGA", "MKD", "MMK", "MNT", "MOP", "MRU", "MUR", "MVR", "MWK", "MXN", "MYR", "MZN", "NAD", "NGN", "NIO", "NOK", "NPR", "NZD", "OMR", "PAB", "PEN", "PGK", "PHP", "PKR", "PLN", "PYG", "QAR", "RON", "RSD", "RUB", "RWF", "SAR", "SBD", "SCR", "SDG", "SEK", "SGD", "SHP", "SLE", "SLL", "SOS", "SRD", "SSP", "STN", "SYP", "SZL", "THB", "TJS", "TMT", "TND", "TOP", "TRY", "TTD", "TVD", "TWD", "TZS", "UAH", "UGX", "USD", "UYU", "UZS", "VES", "VND", "VUV", "WST", "XAF", "XCD", "XDR", "XOF", "XPF", "YER", "ZAR", "ZMW", "ZWL"]
+.map(currency => (
+                <option key={currency} value={currency}>{currency}</option>
+              ))}
+            </select>
+          </div>
+          <div style={{ marginLeft: '5rem' }}>
+            <label htmlFor="targetCurrency" style={{ fontSize: '1.5rem', color: 'white' }}>Select target currency  :  </label>
+            <select id="targetCurrency" value={targetCurrency} onChange={handleTargetCurrencyChange} style={{ fontSize: '1rem' }}>
+              {[ "AED", "AFN", "ALL", "AMD", "ANG", "AOA", "ARS", "AUD", "AWG", "AZN", "BAM", "BBD", "BDT", "BGN", "BHD", "BIF", "BMD", "BND", "BOB", "BRL", "BSD", "BTN", "BWP", "BYN", "BZD", "CAD", "CDF", "CHF", "CLP", "CNY", "COP", "CRC", "CUP", "CVE", "CZK", "DJF", "DKK", "DOP", "DZD", "EGP", "ERN", "ETB", "EUR", "FJD", "FKP", "FOK", "GBP", "GEL", "GGP", "GHS", "GIP", "GMD", "GNF", "GTQ", "GYD", "HKD", "HNL", "HRK", "HTG", "HUF", "IDR", "ILS", "IMP", "INR", "IQD", "IRR", "ISK", "JEP", "JMD", "JOD", "JPY", "KES", "KGS", "KHR", "KID", "KMF", "KRW", "KWD", "KYD", "KZT", "LAK", "LBP", "LKR", "LRD", "LSL", "LYD", "MAD", "MDL", "MGA", "MKD", "MMK", "MNT", "MOP", "MRU", "MUR", "MVR", "MWK", "MXN", "MYR", "MZN", "NAD", "NGN", "NIO", "NOK", "NPR", "NZD", "OMR", "PAB", "PEN", "PGK", "PHP", "PKR", "PLN", "PYG", "QAR", "RON", "RSD", "RUB", "RWF", "SAR", "SBD", "SCR", "SDG", "SEK", "SGD", "SHP", "SLE", "SLL", "SOS", "SRD", "SSP", "STN", "SYP", "SZL", "THB", "TJS", "TMT", "TND", "TOP", "TRY", "TTD", "TVD", "TWD", "TZS", "UAH", "UGX", "USD", "UYU", "UZS", "VES", "VND", "VUV", "WST", "XAF", "XCD", "XDR", "XOF", "XPF", "YER", "ZAR", "ZMW", "ZWL"]
+.map(currency => (
+                <option key={currency} value={currency}>{currency}</option>
+              ))}
+            </select>
+          </div>
+        </Box>
+      </Box>
+
+      {/* Link to Currency Codes */}
+      <div style={{ textAlign: 'right', marginRight: '2rem'}}>
+        <Box className="link-container">
+          <Typography variant="body1" style={{ color: 'white', fontSize: '1rem'}}>
+            <Link href="https://www.iban.com/currency-codes" target="_blank" rel="noopener noreferrer">
+              Currency Codes
+            </Link>
+          </Typography>
+        </Box>
+      </div>
+
+      {/* Exchange Rate Dashboard */}
+      <Box textAlign="center" p={2}>
+        {exchangeRates.length > 0 && (
+          <DashboardBox width="100%" height="100%" p="2rem" overflow="hidden" boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)" >
+            <Typography variant="h4" p={1} color="white">{`${targetCurrency} to ${baseCurrency} Rate`}</Typography>
+            <ResponsiveContainer width="100%" height={390}>
+              <LineChart data={exchangeRates}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="datetime" />
+                <XAxis dataKey="currency" />
                 <YAxis />
-                <Tooltip />
+                <Tooltip 
+                  content={({ label, payload }) => {
+                    if (payload && payload.length > 0) {
+                      return (
+                        <div style={{ backgroundColor: 'white', padding: '5px' }}>
+                          <p><strong>{label}</strong></p>
+                          {payload.map((item, index) => (
+                            <p key={index}>
+                              <span style={{ color: item.color }}>{item.name}:</span> {item.value}
+                            </p>
+                          ))}
+                          <p><strong>Timestamp:</strong> {payload[0].payload.timestamp}</p>
+                        </div>
+                      );
+                    }
+                    return null;
+                  }} 
+                />
                 <Legend />
-                <Line
-                  type="monotone"
-                  dataKey="USD"
-                  name="USD"
-                  stroke={theme.palette.primary.main}
-                />
-                <Line
-                  type="monotone"
-                  dataKey={currency}
-                  name={currency}
-                  stroke={theme.palette.secondary.main}
-                />
+                <Line type="monotone" dataKey="rate" stroke="#8884d8" strokeWidth={3} />
               </LineChart>
             </ResponsiveContainer>
-            <Box mt={2}>
-              <Typography variant="subtitle2" style={{ color: "#ffff", fontSize: "120%" }}>Currency</Typography>
-            </Box>
-          </Box>
-        </StyledDashboardBox>
-      ))}
-    </FlexBetween>
+          </DashboardBox>
+        )}
+      </Box>
+    </div>
   );
 };
 
-export default ExchangeRateDashboard;
+export default CurrencyExchangeDashboard;

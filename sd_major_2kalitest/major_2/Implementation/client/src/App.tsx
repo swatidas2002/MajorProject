@@ -11,6 +11,7 @@ import Predictions from '@/scenes/predictions';
 import MainComponent from '@/scenes/taxcalculator';
 import InvoiceSystem from '@/scenes/invoice';
 import Expense from './scenes/Expense';
+import Currency from './scenes/Currency';
 import  toast , { Toaster } from 'react-hot-toast';
 
 
@@ -48,6 +49,7 @@ const App = () => {
             <Route path="/expense" element={<Expense/>} />
             <Route path="/taxcalculator" element={<MainComponent/>} />
             <Route path="/invoice" element={<InvoiceSystem/>} />
+            <Route path="/currency" element={<Currency/>} />
            
           </Routes>
         </BrowserRouter>

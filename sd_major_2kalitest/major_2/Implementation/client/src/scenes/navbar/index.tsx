@@ -106,6 +106,19 @@ const Navbar = ({ theme, setTheme }) => {
 
         <Box sx={{ "&:hover": { color: (palette.primary as any)[100] } }}>
           <Link
+            to="/currency"
+            onClick={() => setSelected("currency")}
+            style={{
+              color: selected === "currency" ? "inherit" : palette.grey[700],
+              textDecoration: "inherit",
+            }}
+          >
+            CURRENCY
+          </Link>
+        </Box>
+
+        <Box sx={{ "&:hover": { color: (palette.primary as any)[100] } }}>
+          <Link
             to="/exchange"
             onClick={() => setSelected("exchange")}
             style={{

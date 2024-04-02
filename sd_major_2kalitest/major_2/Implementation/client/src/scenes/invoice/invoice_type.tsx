@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import './invoice.css';
 
+
 interface Product {
   particular: string;
   qty: number;
@@ -162,6 +163,7 @@ const Invoice: React.FC = () => {
               </div>
             
               {/* Product details */}
+              <div className="product-table">
               <table className="table table-bordered">
                 <thead>
                   <tr>
@@ -186,13 +188,15 @@ const Invoice: React.FC = () => {
                   ))}
                 </tbody>
               </table>
-              <div className="text-center">
+              </div>
+
+              <div className="add-container">
                 <button type="button" className="btn btn-success" onClick={handleAddProduct}>Add Product</button>
               </div>
               <div className="text-center">
                 <label id="totalLabel">Total: ${getTotal()}</label>
               </div>
-              <div className="text-center">
+              <div className="buttons-container">
                 <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
                   <button type="button" className="btn btn-submit" onClick={handleSubmit}>Submit</button>
                   <button type="button" className="btn btn-warning" onClick={handleReset}>Reset</button>
